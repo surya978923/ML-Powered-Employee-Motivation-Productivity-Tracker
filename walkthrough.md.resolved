@@ -1,0 +1,14 @@
+# Fixing Employee Login/Logout Time Issues
+
+## Goal Description
+The objective of this task was to resolve the issue where the login time and logout time for employees were not being recorded correctly. The requirements specified that the system must automatically record the current system date and time using Django's timezone-aware `timezone.now()`. The `TIME_ZONE` in [settings.py](file:///d:/new_program_1/tracker_project/settings.py) also needed to be correctly configured.
+
+## Changes Made
+- **[MODIFY] settings.py:** Changed `TIME_ZONE` from `'UTC'` to `'Asia/Kolkata'` to ensure the system uses the correct local time for the server.
+- **[MODIFY] models.py:** Added Django signal handlers (`user_logged_in` and `user_logged_out`) at the bottom of the file to automatically create or update the [Attendance](file:///d:/new_program_1/tracker_app/models.py#36-62) and [LoginHistory](file:///d:/new_program_1/tracker_app/models.py#86-104) records with the exact current timezone-aware time when an employee logs in or logs out. This ensures that the timing is handled reliably at the model/auth level.
+- **[MODIFY] views.py:** Removed the manual, redundant attendance tracking logic from [employee_login_view](file:///d:/new_program_1/tracker_app/views.py#42-57) and [logout_view](file:///d:/new_program_1/tracker_app/views.py#58-62). The views now simply handle authentication and redirection, offloading the timing logic to the signals in [models.py](file:///d:/new_program_1/tracker_app/models.py).
+
+## Verification Details
+- **Timezone Verification:** A temporary test script was created and run to print the current aware time and the local time. It confirmed that `timezone.now()` correctly produces a timezone-aware datetime object and that `timezone.localtime()` translates this to the expected `'Asia/Kolkata'` local time.
+- **Signal Logic:** The signal logic was written to correctly handle edge cases, such as an employee logging out without an active session (e.g., if their session expired or they closed the browser).
+- **Working Hours:** The [Attendance](file:///d:/new_program_1/tracker_app/models.py#36-62) model already had a [calculate_total_hours](file:///d:/new_program_1/tracker_app/models.py#51-57) property that correctly calculates the difference between `logout_time` and `login_time`. With both times now accurately recorded as timezone-aware datetimes, the calculation will be correct.

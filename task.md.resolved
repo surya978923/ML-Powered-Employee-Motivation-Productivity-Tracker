@@ -1,0 +1,19 @@
+# Task Checklist
+
+- [ ] Planning
+  - [x] Create task breakdown
+  - [ ] Review current Project and Task models
+  - [ ] Review templates for project update and creation
+  - [ ] Write implementation plan and request review
+
+- [ ] Implementation
+  - [ ] Add `progress_description` to [Project](file:///d:/new_program_1@/tracker_app/models.py#20-35) (or [Task](file:///d:/new_program_1@/tracker_app/models.py#63-77) based on requirement parsing, see below)
+  - [ ] Create and run database migrations
+  - [ ] Update forms and views for updating status
+  - [ ] Add frontend JS logic for conditional rendering
+  - [ ] Update display templates (Dashboard, Profile, etc.)
+
+- [ ] Verification
+  - [ ] Test status changes
+  - [ ] Test backend validation
+  - [ ] Create walkthrough
